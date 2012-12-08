@@ -44,3 +44,4 @@ SchedulerApp.prototype.playChord = function(chord) {
 };
 
 var soundApp = new SchedulerApp();
+
