@@ -1,47 +1,75 @@
-var Synth = function(audiolet, frequency) {
-    AudioletGroup.call(this, audiolet, 0, 1);
-    // Basic wave
-    this.saw = new Saw(audiolet, frequency);
+      function AudioDataDestination(sampleRate, readFn) {
+        // Initialize the audio output.
+        var audio = new Audio();
+        audio.mozSetup(1, sampleRate);
 
-    // Gain envelope
-    this.gain = new Gain(audiolet);
-    this.env = new PercussiveEnvelope(audiolet, 1, 0.1, 0.1,
-        function() {
-            this.audiolet.scheduler.addRelative(0, this.remove.bind(this));
-        }.bind(this)
-    );
-    this.envMulAdd = new MulAdd(audiolet, 0.3, 0);
+        var currentWritePosition = 0;
+        var prebufferSize = sampleRate / 2; // buffer 500ms
+        var tail = null;
 
-    // Main signal path
-    this.saw.connect(this.gain);
-    this.gain.connect(this.outputs[0]);
+        // The function called with regular interval to populate
+        // the audio output buffer.
+        setInterval(function() {
+          var written;
+          // Check if some data was not written in previous attempts.
+          if(tail) {
+            written = audio.mozWriteAudio(tail);
+            currentWritePosition += written;
+            if(written < tail.length) {
+              // Not all the data was written, saving the tail...
+              tail = tail.subarray(written);
+              return; // ... and exit the function.
+            }
+            tail = null;
+          }
 
-    // Envelope
-    this.env.connect(this.envMulAdd);
-    this.envMulAdd.connect(this.gain, 0, 1);
-};
-extend(Synth, AudioletGroup);
+          // Check if we need add some data to the audio output.
+          var currentPosition = audio.mozCurrentSampleOffset();
+          var available = currentPosition + prebufferSize - currentWritePosition;
+          if(available > 0) {
+            // Request some sound data from the callback function.
+            var soundData = new Float32Array(parseFloat(available));
+            readFn(soundData);
 
-var SchedulerApp = function() {
-    this.audiolet = new Audiolet();
+            // Writing the data.
+            written = audio.mozWriteAudio(soundData);
+            if(written < soundData.length) {
+              // Not all the data was written, saving the tail.
+              tail = soundData.slice(written);
+            }
+            currentWritePosition += written;
+          }
+        }, 100);
+      }
 
-    this.scale = new MajorScale();
+      // Control and generate the sound.
 
-    // // I IV V progression
-    // var chordPattern = new PSequence([[0, 2, 4],
-    //                                   [3, 5, 7],
-    //                                   [4, 6, 8]]);
-    // Play the progression
-    // this.audiolet.scheduler.play([chordPattern], 1,
-    //                              this.playChord.bind(this));
-};
+      var frequency = 0, currentSoundSample;
+      var sampleRate = 44100;
 
-SchedulerApp.prototype.playChord = function(chord) {
-        var degree = chord;
-        var frequency = this.scale.getFrequency(degree, 16.352, 4);
-        var synth = new Synth(this.audiolet, frequency);
-        synth.connect(this.audiolet.output);
-};
+      function requestSoundData(soundData) {
+        if (!frequency) {
+          return; // no sound selected
+        }
 
-var soundApp = new SchedulerApp();
+        var k = 2* Math.PI * frequency / sampleRate;
+        for (var i=0, size=soundData.length; i<size; i++) {
+          soundData[i] = Math.sin(k * currentSoundSample++);
+        }
+      }
 
+      var audioDestination = new AudioDataDestination(sampleRate, requestSoundData);
+
+      /**
+       * [start description]
+       * @param  {[type]} freq [description]
+       * @return {[type]}      [description]
+       */
+      function start(freq) {
+        currentSoundSample = 0;
+        frequency = freq;
+      }
+
+      function stop() {
+        frequency = 0;
+      }

@@ -17,20 +17,42 @@
    */
   btn.addEventListener('click',function(e) {
     log('Clicked on debug btn');
-    soundApp.playChord(9);
+    start(600);
+
+
   });
 
   /**
    * Trigger on light change
+   * @param  {[type]} val [description]
    * @param  {number} val A value between 0 and 100, 0 is no light.
    */
   function onLightChange(val) {
-    log('onLightChange() called with val:' + val);
+
+    start(val * 100);
+
+    // var output = new Audio();
+    // output.mozSetup(1, 44100);
+    // // 22050
+
+    // var samples = new Float32Array(val);
+    // console.log(samples);
+    // for (var i = 0; i < samples.length ; i++) {
+    //   samples[i] = Math.sin( i / 20 );
+    // }
+    // console.log(samples);
+    // output.mozWriteAudio(samples);
+
+    //log('onLightChange() called with val:' + val);
     // We support chords from 0 to 9, more can be used
     // but we start with that for now...
-    var chord = Math.floor(val / 10);
-    console.log('Playing chord:', chord);
-    soundApp.playChord(chord);
+    // var chord = val / 10;
+    // chord = chord + 1;
+    // chord = chord * 500;
+    // chord = Number(Math.floor(chord));
+    // //log('Playing freq:' + chord);
+    // //soundApp.playChord(chord);
+    // oscillator.frequency = chord;
   }
 
 

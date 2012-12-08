@@ -6,17 +6,13 @@
  * Licensed under the MIT license.
  */
 
-
-
-
-(function(global){
   var samplerate  = 22050,
     oscillator  = new Oscillator(samplerate), // Creates an instance of an oscillator.
     audiodev,
     pressedKeys = [];
 
   oscillator.frequency = 0;
-
+  oscillator.waveShape = 0;
   function processAudio(buffer){
     var i, l = buffer.length;
     for (i=0; i<l; i++){ // Iterate through the buffer
@@ -49,27 +45,24 @@
   }
 
   function start(){
-    global.onmidi = onmidi;
+    onmidi = onmidi;
 
     var loopCount = 1;
     /**
      * [loop description]
      * @return {[type]} [description]
      */
-    function loop() {
-      oscillator.frequency = 440 * Math.pow(1.059, loopCount - 69);
-      loopCount++;
-      console.log('Loop count:' + loopCount);
-      setTimeout(loop, 1500);
-    }
+    // function loop() {
+    //   oscillator.frequency = 440 * Math.pow(1.059, loopCount - 69);
+    //   loopCount++;
+    //   console.log('Loop count:' + loopCount);
+    //   setTimeout(loop, 1500);
+    // }
 
-    setTimeout(loop, 1500);
-    document.getElementById('waveshape').addEventListener('change', function(){
-      oscillator.waveShape = Number(this.value);
-    }, true);
+    // setTimeout(loop, 1500);
+
     audiodev = new AudioDevice(samplerate, 2, processAudio);
-    global.audiodev = audiodev;
+    audiodev = audiodev;
   }
 
-  global.addEventListener('load', start, true);
-}(this));
+  start();
