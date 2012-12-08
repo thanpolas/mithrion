@@ -1,0 +1,102 @@
+/*
+* Andrew Ckor
+* Copyright 2012, Gangnapp.
+* www.easybring.com
+* 8/12/2012
+*/
+
+@import "normalize";
+@import url(http://fonts.googleapis.com/css?family=Exo:400,700,400italic,700italic|Grand+Hotel);
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/images";
+@import "compass/css3/opacity";
+@import "compass/css3/user-interface";
+
+body,
+html {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+html {
+	background-color: #3E4352;
+	@include border-radius( 5px);
+	@include box-shadow(inset 0 0 0 8px rgba(0,0,0, .05));
+}
+
+body {
+	
+	text-align: center;
+	font-family: 'Exo', sans-serif;
+}
+
+.logo {
+	position: relative;
+	cursor: pointer;
+	color: #fff;
+	font-size: 50px;
+	font-family: 'Grand Hotel', cursive;
+	text-shadow: 0 0 10px rgba(0, 0, 0, .3), 0 1px 3px rgba(0, 0, 0, .5);
+	@include user-select(none);
+	
+	&:active {
+		top: 1px;
+		text-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+	}
+}
+
+label {
+	width: 80%;
+	max-width: 200px;
+	margin-bottom: 20px;
+	margin-top: 50px;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 19px;
+	color: darken( #3E4352, 15% );
+	text-shadow: 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+.custom-select {
+	padding: 8px 20px;
+	width: 80%;
+	max-width: 200px;
+	text-align: left;
+	display: inline-block;
+	@include border-radius(6px);
+	@include box-shadow(0 0 0 6px rgba(0, 0, 0, .05), 0 1px 3px rgba(0, 0, 0, .2));
+	background-color: transparent;
+	border: none;
+	position: relative;
+	color: #fff;
+	font-size: 17px;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+	@include background-image(linear-gradient(bottom, darken( #19AFD4, 2% ) 0%, lighten( #19AFD4, 2% ) 100%));
+	//@include background-image(linear-gradient(bottom, darken( #3E4352, 2% ) 0%, #3E4352 100%));
+	
+	&:after {
+		content: '▾';
+		font-size: 20px;
+		color: #fff;
+		position: absolute;
+		display: inline-block;
+		top: 6px;
+		right: 11px;
+	}
+	
+	select {
+		background: transparent;
+		border: none;
+		@include opacity(0);
+		position: absolute;
+		cursor: pointer;
+		z-index: 1;
+		top:0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+}
