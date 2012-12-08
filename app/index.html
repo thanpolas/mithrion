@@ -21,6 +21,7 @@
   </head>
 
   <body>
+    <span id="factor"></span><br/>
     <h1>Gangnam Style</h1>
 
     <div id="logger"></div>
@@ -29,10 +30,30 @@
     <script src="/assets/js/vendor/osc.js"></script>
     <script src="/assets/js/vendor/simplesynth.js"></script>
     -->
+    <!--
     <script type="text/javascript" src="assets/js/debug.js"></script>
     <script src="assets/js/vendor/audiolet_app.js"></script>
     <script src="assets/js/soundLib.js"></script>
-    <script src="assets/js/mithrion.js"></script>
-    <script src="assets/js/lightSensor.js"></script>
+    <script src="assets/js/mithrion.js"></script>-->
+
+    <input type="button" onclick="onClickChangea(100);" value="sound" />
+
+    <audio src="assets/lightsaber.mp3"></audio>
+
+    <script>
+      function onClickChangea(){
+
+      }
+
+      var peon = new Worker('/assets/js/lightSensor.js');
+      peon.addEventListener("message", function (event) {
+            //onLightChange(event.data);
+        }, false);
+
+      setInterval(function() {
+        peon.postMessage('meow');
+      }, 2000);
+    </script>
+    <!--<script src="/assets/js/lightSensor.js"></script>-->
   </body>
 </html>
