@@ -22,7 +22,15 @@
 
   <body>
     <h1>Gangnam Style</h1>
-
+    <label for="waveshape">Waveshape</label><br />
+    <select id="waveshape">
+      <option value="0" selected="selected">Sine</option>
+      <option value="1">Triangle</option>
+      <option value="2">Pulse</option>
+      <option value="3">Sawtooth</option>
+      <option value="4">Invert Sawtooth</option>
+      <option value="5">Square</option>
+    </select>
     <div id="logger"></div>
     <script src="/assets/js/vendor/audiodevice.js"></script>
     <script src="/assets/js/vendor/osc.js"></script>
