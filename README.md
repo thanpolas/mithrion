@@ -2,6 +2,8 @@
 
 Touch sensitive music composer
 
+Firefox OS App Days
+
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
@@ -20,11 +22,9 @@ jQuery(function($) {
 </script>
 ```
 
-## Documentation
-_(Coming soon)_
 
-## Examples
-_(Coming soon)_
-
-## Release History
-_(Nothing yet)_
+## Authors
+* [Thanpolas](https://github.com/thanpolas) Thanasis Polychronakis
+* [Sevastos](https://github.com/sevastos) Sevastos Mastrogiorgis
+* [Leonidas](https://github.com/leoapost) Leonidas Apostolids
+* [Ckor](https://github.com/andrewckor) Andrew Ckor
