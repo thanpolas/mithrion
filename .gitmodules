@@ -1,3 +1,0 @@
-[submodule "app/assets/js/vendor/audiolet"]
-	path = app/assets/js/vendor/audiolet
-	url = https://github.com/oampo/Audiolet.git
